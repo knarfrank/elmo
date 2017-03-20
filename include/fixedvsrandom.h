@@ -85,6 +85,7 @@ void gettrace(double *ptr, FILE *fp, int len, int *points){
             j++;
         }
     }
+    free(traceptr);
 }
 
 //-------------------------------------------------------------------
@@ -137,6 +138,7 @@ void getaverage(double *average, int len, int start, int end, int *points, int o
         average[j] /= tracenumber;
        // printf("%0.20f\n", average[j]);
     }
+    free(finaltrace);
 }
 
 //-------------------------------------------------------------------
@@ -175,6 +177,7 @@ void getvariance(double *variance, int len, double *average, int start, int end,
     for(j=0;j<len_final;j++){
         variance[j] /= (tracenumber-1);
     }
+    free(finaltrace);
 }
 
 //-------------------------------------------------------------------
@@ -321,6 +324,12 @@ void firstorderfixedvsrandom(void){
         }
     }
     fclose(fp);
+    free(fixedaverage);
+    free(randomaverage);
+    free(fixedvariance);
+    free(randomvariance);
+    free(ttest);
+    free(points);
 
 }
 
@@ -384,7 +393,12 @@ void secondorderfixedvsrandom(int len_masktrace, int mask){
     fclose(fp);
     
     maskfixedvsrandomfail[mask] = leakyinstructionnomask;
-
+    free(fixedaverage);
+    free(randomaverage);
+    free(fixedvariance);
+    free(randomvariance);
+    free(ttest);
+    free(maskpoint);
     return;
 }
 
@@ -425,6 +439,8 @@ void fixedvsrandom(void){
         printf("ANALYSING MASK NUMBER %d\n", i);
         secondorderfixedvsrandom(getmaskpointslen(i+1), i);
     }
+    free(maskfixedvsrandomfail);
+
 }
 
 //-------------------------------------------------------------------
