@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+for i in `seq 1 16`;
+do
+    echo "Running $i"
+	./elmo ../out/dpaAES.bin -starttrace 1 -runcount 1000 -dummy $i > output/output.txt
+	mv ./output ./output_dummy_$i
+	mkdir ./output
+done
+
+
+
