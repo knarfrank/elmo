@@ -8,7 +8,7 @@ unsigned int read_register ( unsigned int );
 #define DISS        0
 #define DBUG        0
 
-#define FIXEDVSRANDOM
+//#define FIXEDVSRANDOM
 //#define KEYFLOW
 #define POWERMODEL
 //#define ENERGYMODEL
@@ -81,6 +81,7 @@ unsigned int tracestart;
 
 unsigned int runcount;
 unsigned int dummyroundcount;
+
 unsigned int no_masks;
 unsigned int *maskfixedvsrandomfail;
 unsigned int tracelength;
