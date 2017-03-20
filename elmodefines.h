@@ -19,7 +19,7 @@ unsigned int read_register ( unsigned int );
 #define CYCLEACCURATE 1
 #define KEYFLOWFAIL 80
 #define FIXEDVSRANDOMFAIL 4.5
-#define PRINTTRACENOINTERVAL 1
+#define PRINTTRACENOINTERVAL 10000
 #define PRINTALLASMTRACES 0
 #define PRINTALLNONPROFILEDTRACES 0
 
@@ -77,7 +77,7 @@ unsigned int t;
 unsigned int tracestart;
 
 unsigned int runcount;
-
+unsigned int dummyroundcount;
 unsigned int no_masks;
 unsigned int *maskfixedvsrandomfail;
 unsigned int tracelength;

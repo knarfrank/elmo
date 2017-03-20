@@ -36,6 +36,8 @@
     #include "include/energy.h"
 #endif
 
+int printLineNum = 0;
+
 //-------------------------------------------------------------------
 
 // Linked list functions for KeyFlow
@@ -403,12 +405,17 @@ if(registerdataflow && DBUG) fprintf(stderr,"write32(0x%08X,0x%08X)\n",addr,data
             switch(addr)
         {
             case 0xE0000000:{
-                fprintf(uartout,"%02x\n",data);
+//                fprintf(uartout,"%02x\n",data);
+                if(printLineNum % 16 == 0) {
+                    printf("\n");   
+                    printLineNum = 0;
+                }
+                printf("%02x",data);
                 fflush(stdout);
+                printLineNum++;
                 break;
             }
             case 0xE0000004:{ // trigger
-                
                 registerdataflow = (data & 0x01);
                 
                 if((t<tracestart)){
@@ -638,8 +645,14 @@ if(registerdataflow && DBUG) fprintf(stderr,"read32(0x%08X)=",addr);
                     data = runcount;
                     free(str);
                     return(data);
-
                 }
+                case 0xE1000010:
+                {
+                    data = dummyroundcount;
+                    free(str);
+                    return(data);
+                }
+
 
             }
         }
@@ -3912,7 +3925,7 @@ int main ( int argc, char *argv[] )
     char *token;
     
     
-    t = 1; registerdataflow = 0; indexno = 1; keyflowfailno = 0, debug = 0, fvr_only = 0, tracestart = 1; runcount = 0; 
+    t = 1; registerdataflow = 0; indexno = 1; keyflowfailno = 0, debug = 0, fvr_only = 0, tracestart = 1; runcount = 0, dummyroundcount=0; 
     
     mkdir(TRACEFOLDER, 0777);
     mkdir(NONPROFILEDFOLDER, 0777);
@@ -3971,6 +3984,9 @@ int main ( int argc, char *argv[] )
         }
         if(strcmp(argv[ra],"-runcount")==0){
             sscanf(argv[ra+1], "%d", &runcount);
+        }
+        if(strcmp(argv[ra],"-dummy")==0) {
+            sscanf(argv[ra+1], "%d", &dummyroundcount);
         }
         if(strcmp(argv[ra],"-starttraceghost")==0){
             sscanf(argv[ra+1], "%d", &tracestart);

@@ -6,6 +6,7 @@ extern void printhex(unsigned char * pointer);
 extern void endprogram(void);
 extern void getstart(unsigned int * pointer);
 extern void getruncount(unsigned int * pointer);
+extern void getdummycount(unsigned int * pointer);
 extern void initialisekeyflow(unsigned char * pointer);
 extern void resetkeyflow(void);
 extern void setmaskdataflowstart(unsigned int start);
