@@ -13,7 +13,7 @@ unsigned int read_register ( unsigned int );
 #define POWERMODEL
 //#define ENERGYMODEL
 
-#define SAMETRACELENGTH
+//#define SAMETRACELENGTH
 #define BINARYTRACES
 //#define MEANCENTER
 #define DIFFERENTIALVOLTAGE
@@ -66,6 +66,7 @@ unsigned short ram[RAMSIZE>>1];
 #define CPSR_V (1<<28)
 #define CPSR_Q (1<<27)
 
+int randomData;
 FILE *fpvcd, *randdata, *uartout, *indexesfile, *datafile, *asmoutput, *keyflow;
 
 unsigned int vcdcount;
