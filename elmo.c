@@ -2,6 +2,8 @@
 
  of this code has been tested using a number generic testing methods however we do not garentee this code to be bug free. */
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,10 +11,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/syscall.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
-
+#include <linux/random.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 //#include "test/elmodefinestest.h"
 #include "elmodefines.h"
@@ -615,10 +621,12 @@ if(registerdataflow && DBUG) fprintf(stderr,"read32(0x%08X)=",addr);
                     return(data);
                 }
                 case 0xE1000000:
-                {
-                    getline(&str, &len, datafile);
-                    data = (int)strtol(str, NULL, 16);
-                    //printf("%x\n", data);
+                { 
+                    int err = -1;
+                    while(err < 0) {
+                        err = read(randomData, str, sizeof str);
+                    }
+                    data = (unsigned int)str[0] & 0xFF;
                     free(str);
                     return(data);
                 }
@@ -3931,7 +3939,9 @@ int main ( int argc, char *argv[] )
     strcat(str, "randdata.txt");
     sprintf(filepath, str, t);
     randdata = fopen(filepath,"w");
-
+    
+    randomData = open("/dev/urandom", O_RDONLY);
+    
     strcpy(str, TRACEFOLDER);
     strcat(str, "uartout.txt");
     sprintf(filepath, str, t);
